@@ -1,5 +1,6 @@
 let express = require("express");
 let app = express();
+app.set("view engine","ejs");
 
 // set up database connection
 const knex = require("knex")({
@@ -18,12 +19,7 @@ app.get("/",(req,res) => {
  .select()
  .from("venues")
  .then((result) => {
-	let html = "<body><ul>";
-	for (let i=0;i<result.length;i++) {
-		html += "<li>" + result[i].location + "</li>";
-	}
-	html += "</body>"
-  res.send(html);
+  res.render("index", {aConcerts: result});
  })
 .catch((error) => {
 	console.error(error);
